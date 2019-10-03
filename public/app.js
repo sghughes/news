@@ -9,8 +9,8 @@ $.getJSON('/articles', function(data){
                     "<div data-id='" + data[i]._id + "'>" +
                         "<h5 class='card-title'>Summary text here</h5>" + 
                         "<p class='card-text'>" + data[i].link + "</p>" +
-                        "<a href='#' class='btn btn-primary'> Add Note </a>" + 
-                        "<a href='#' class='btn btn-primary'> View Note </a>"+
+                        "<a href='#' class='btn btn-primary addNote'> Add Note </a>" + 
+                        "<a href='#' class='btn btn-primary viewNote'> View Note </a>"+
                     "</div></div></div><br>");
     }
 });

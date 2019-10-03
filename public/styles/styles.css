@@ -1,0 +1,12 @@
+
+.photoBanner {
+    background-image: url('../assets/images/paperStack2.jpg');
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position: center;
+}
+
+.addNote, .viewNote {
+    padding: 5px;
+    margin: 5px;
+}
