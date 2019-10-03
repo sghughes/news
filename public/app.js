@@ -2,21 +2,24 @@
 
 $.getJSON('/articles', function(data){
     for (var i=0; i < data.length; i++){
-        $("#articles").append(
-            "<div class='card'>" + 
+        $("#articles").append("<div class='card' data-id='" + data[i]._id + "'>" + 
                 "<h5 class='card-header'>" + data[i].title + "</h5>" +
                 "<div class='card-body'>" + 
                     "<div data-id='" + data[i]._id + "'>" +
                         "<h5 class='card-title'>Summary text here</h5>" + 
                         "<p class='card-text'>" + data[i].link + "</p>" +
-                        "<a href='#' class='btn btn-primary addNote'> Add Note </a>" + 
-                        "<a href='#' class='btn btn-primary viewNote'> View Note </a>"+
+                        "<a href='#' class='btn btn-primary addNote' data-id='" + data[i]._id + "'> Add Note </a>" + 
+                        "<a href='#' class='btn btn-primary viewNote' data-id='" + data[i]._id + "'> View Note </a>"+
                     "</div></div></div><br>");
     }
+
+  //   $("#articles").append("<p data-id='" + data[i]._id + "'>" + data[i].title + "<br />" + data[i].link + "</p>");
+  // }
+
 });
 
 
-$(document).on("click", "p", function() {
+$(document).on("click", ".addNote", function() {
 
     $("#notes").empty();
 
@@ -41,6 +44,28 @@ $(document).on("click", "p", function() {
         }
       });
   });
+
+  $(document).on("click", ".viewNote", function() {
+
+    var thisId = $(this).attr("data-id");
+  
+    $.ajax({
+      method: "GET",
+      url: "/articles/" + thisId
+    })
+
+      .then(function(data) {
+      console.log(data.note);
+      alertify.alert(
+      data.note.title, data.note.body, function(){
+      alertify.success('Thanks for viewing this note');
+      window.location.href = '/';
+      }
+      )
+
+      });
+  });
+
   
 
   $(document).on("click", "#savenote", function() {
