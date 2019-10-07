@@ -6,7 +6,7 @@
     background-position: center;
 }
 
-.addNote, .viewNote {
+.addNote, .viewNote, .deleteNote {
     padding: 5px;
     margin: 5px;
 }
