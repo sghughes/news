@@ -19,17 +19,14 @@ $.getJSON('/articles', function(data){
                 "<div class='card-body'>" + 
                     "<div data-id='" + data[i]._id + "'>" +
                         "<h5 class='card-title'>" + data[i].summary + "</h5>" + 
-                        "<p class='card-text'>" + data[i].link + "</p>" +
+                        "<a href='" + data[i].link + "'<p class='card-text'>" + data[i].link + "</p></a>" +
                         "<a href='#' class='btn btn-primary addNote' data-id='" + data[i]._id + "'> Add/Edit Note </a>" + 
                         "<a href='#' class='btn btn-primary viewNote' data-id='" + data[i]._id + "'> View Note </a>"+
                         "<a href='#' class='btn btn-primary deleteNote' data-id='" + data[i]._id + "'> Delete Note </a>"+
                         "<div id='" + data[i]._id + "'>" +
                     "</div></div></div><br>");
     }
-    // for (var i = 0; i < data.length; i++) {
-    //   // Display the apropos information on the page
-    //   $("#articles").append("<p data-id='" + data[i]._id + "'>" + data[i].title + "<br />" + data[i].link + "</p>");
-    // }
+
 });
 
 
@@ -39,7 +36,6 @@ $(document).on("click", ".addNote", function() {
 
     var thisId = $(this).attr("data-id");
   
-
     $.ajax({
       method: "GET",
       url: "/articles/" + thisId
@@ -81,6 +77,7 @@ $(document).on("click", ".addNote", function() {
       });
   });
 
+
   
 
   $(document).on("click", "#savenote", function() {
@@ -105,16 +102,39 @@ $(document).on("click", ".addNote", function() {
     window.location.href = '/';
   });
 
-  $(document).on("click", ".deleteNote", function(){
-    var noteId=$(this).attr('data-note-id');
-    var thisId = $(this).attr("data-id");
-    $.ajax({
-      method: "DELETE",
-      url: "/notes/delete/" + noteId + '/' + thisId
-    })
-    .done(function(data){
-      console.log(data);
-      window.location.href = '/';
-    })
-  })
 
+
+  // $(document).on("click", ".deleteNote", function(){
+  //   var noteId=$(this).attr('data-note-id');
+  //   var thisId = $(this).attr("data-id");
+  //   $.ajax({
+  //     method: "DELETE",
+  //     url: "/articles/" + thisId + '/' + noteId
+  //   })
+  //   .then(function(data){
+  //     console.log(data);
+  //     window.location.href = '/';
+  //   })
+  // })
+
+  $(document).on("click", ".deleteNote", function(){
+    var thisId = $(this).attr("data-id");
+  
+    $.ajax({
+      method: "GET",
+      url: "/articles/" + thisId
+    })
+      .then(function(data) {
+      console.log(data.note);
+      var noteId = data.note._id;
+      var thisId = data._id;
+      $.ajax({
+        method: "DELETE",
+        url: "/articles/" + thisId + '/' + noteId
+      })
+      .then(function(data){
+        console.log(data);
+        window.location.href = '/';
+      })
+    })
+  });

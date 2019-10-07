@@ -108,8 +108,15 @@ app.post('/articles/:id',function(req,res){
     });
 });
 
+app.get('/articles/:id/:id', function(req,res){
+    db.Note.findOne({_id:req.params.id})
+    .then(function(dbNote){
+        res.json(dbNote);
+    })
+})
+
 //Need help with this
-app.delete('/articles/:id', function(req, res){
+app.delete('/articles/:id/:id', function(req, res){
     db.Note.remove({ _id: req.params.id }).then(function(dbNote){
         res.json(dbNote);
     });
